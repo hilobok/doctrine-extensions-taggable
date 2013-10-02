@@ -2,8 +2,20 @@
     "name": "modu/taggable",
     "type": "library",
     "description": "Doctrine2 taggable behavior extension",
+    "keywords": [
+        "doctrine2",
+        "behavior",
+        "behaviors",
+        "extension",
+        "extensions",
+        "taggable"
+    ],
     "license": "MIT",
     "authors": [
+        {
+            "name": "Fabien Pennequin",
+            "email": "fabien@pennequin.me"
+        },
         {
             "name": "Andrew Hilobok",
             "email": "hilobok@gmail.com"
