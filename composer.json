@@ -1,0 +1,32 @@
+{
+    "name": "modu/taggable",
+    "type": "library",
+    "description": "Doctrine2 taggable behavior extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrew Hilobok",
+            "email": "hilobok@gmail.com"
+        }
+    ],
+
+    "require": {
+    },
+
+    "minimum-stability": "stable",
+
+    "autoload": {
+        "psr-0": {
+            "Modu\\DoctrineExtensions\\Taggable": "lib"
+        }
+    },
+
+    "target-dir": "Modu/DoctrineExtensions/Taggable",
+
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
+
