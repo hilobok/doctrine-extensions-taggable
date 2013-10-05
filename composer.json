@@ -1,5 +1,5 @@
 {
-    "name": "modu/taggable",
+    "name": "anh/taggable",
     "type": "library",
     "description": "Doctrine2 taggable behavior extension",
     "keywords": [
@@ -29,11 +29,11 @@
 
     "autoload": {
         "psr-0": {
-            "Modu\\DoctrineExtensions\\Taggable": "lib"
+            "Anh\\DoctrineExtensions\\Taggable": "lib"
         }
     },
 
-    "target-dir": "Modu/DoctrineExtensions/Taggable",
+    "target-dir": "Anh/DoctrineExtensions/Taggable",
 
     "extra": {
         "branch-alias": {
