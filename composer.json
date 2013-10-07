@@ -1,5 +1,5 @@
 {
-    "name": "anh/taggable",
+    "name": "anh/doctrine-extensions-taggable",
     "type": "library",
     "description": "Doctrine2 taggable behavior extension",
     "keywords": [
