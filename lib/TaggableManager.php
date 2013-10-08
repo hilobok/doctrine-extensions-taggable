@@ -151,7 +151,7 @@ class TaggableManager
         $compare = function($tag1, $tag2) { return strcasecmp($tag1->getName(), $tag2->getName()); };
 
         $removed = array_udiff($old, $new, $compare);
-        if (!$removed->isEmpty()) {
+        if (!empty($removed)) {
             $removed = array_map(function($tag) { return $tag->getId(); }, $removed);
 
             $this->em->createQueryBuilder()
