@@ -29,11 +29,9 @@
 
     "autoload": {
         "psr-0": {
-            "Anh\\DoctrineExtensions\\Taggable": "lib"
+            "Anh\\Taggable": "lib"
         }
     },
-
-    "target-dir": "Anh/DoctrineExtensions/Taggable",
 
     "extra": {
         "branch-alias": {
