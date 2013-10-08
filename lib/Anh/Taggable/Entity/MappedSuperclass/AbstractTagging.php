@@ -1,9 +1,9 @@
 <?php
 
-namespace Anh\DoctrineExtensions\Taggable\Entity\MappedSuperclass;
+namespace Anh\Taggable\Entity\MappedSuperclass;
 
 use Doctrine\ORM\Mapping as ORM;
-use Anh\DoctrineExtensions\Taggable\TaggableInterface;
+use Anh\Taggable\TaggableInterface;
 
 /**
  * @ORM\MappedSuperclass

@@ -1,6 +1,6 @@
 <?php
 
-namespace Anh\DoctrineExtensions\Taggable\Entity;
+namespace Anh\Taggable\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 /**

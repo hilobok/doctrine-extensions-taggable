@@ -1,6 +1,6 @@
 <?php
 
-namespace Anh\DoctrineExtensions\Taggable\Entity\MappedSuperclass;
+namespace Anh\Taggable\Entity\MappedSuperclass;
 
 use Doctrine\ORM\Mapping as ORM;
 

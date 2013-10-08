@@ -1,6 +1,6 @@
 <?php
 
-namespace Anh\DoctrineExtensions\Taggable;
+namespace Anh\Taggable;
 
 /**
  * This is a taggable trait that classes unable to extend AbstractTaggable

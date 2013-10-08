@@ -1,6 +1,6 @@
 <?php
 
-namespace Anh\DoctrineExtensions\Taggable;
+namespace Anh\Taggable;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
