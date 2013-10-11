@@ -12,8 +12,20 @@ if (!class_exists('PHPUnit_Framework_MockObject_MockBuilder')) {
     die('PHPUnit MockObject plugin is required, at least 1.0.8 version');
 }
 
+// search autoload.php
+$search = array(
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../../autoload.php'
+);
+
+foreach ($search as $autoload) {
+    if (is_file($autoload)) {
+        break;
+    }
+}
+
 /** @var $loader ClassLoader */
-$loader = require __DIR__ . '/../../../autoload.php';
+$loader = require $autoload;
 $loader->add('Anh\Taggable\Fixtures', __DIR__);
 $loader->add('Anh\Taggable\Tool', __DIR__);
 
