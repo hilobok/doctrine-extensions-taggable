@@ -2,10 +2,11 @@
 
 namespace Anh\Taggable;
 
+use Anh\Taggable\TaggableManager;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
-use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreFlushEventArgs;
 
 class TaggableListener implements EventSubscriber
 {
@@ -16,7 +17,7 @@ class TaggableListener implements EventSubscriber
      *
      * @param TagManager $manager
      */
-    public function __construct(/*TagManager*/ $manager)
+    public function __construct(TaggableManager $manager)
     {
         $this->manager = $manager;
     }
@@ -28,68 +29,70 @@ class TaggableListener implements EventSubscriber
     {
         return array(
             Events::postLoad,
-            Events::onFlush,
             Events::postPersist,
-            Events::postRemove
+            Events::preFlush,
+            Events::preRemove
         );
     }
 
     /**
-     * Inject TaggableManager into resource for lazy loading of tags
+     * Inject TaggableManager into resource
      */
     public function postLoad(LifecycleEventArgs $args)
     {
         $resource = $args->getEntity();
 
-        if (!$resource instanceof TaggableInterface) {
-            return;
-        }
-
-        $resource->setTaggableManager($this->manager);
-    }
-
-    /**
-     * Id for new entities not known at this stage (at least for mysql) so we process only entities scheduled for updates
-     */
-    public function onFlush(OnFlushEventArgs $args)
-    {
-        $em = $args->getEntityManager();
-        $uow = $em->getUnitOfWork();
-
-        foreach ($uow->getScheduledEntityUpdates() as $resource) {
-            if (!$resource instanceof TaggableInterface) {
-                continue;
-            }
-
-            $manager->saveTagging($resource);
+        if ($resource instanceof TaggableInterface) {
+            $resource->setTaggableManager($this->manager);
         }
     }
 
     /**
-     * Id already known for new entities
+     * Sync tagging when id already known for new entities
      */
     public function postPersist(LifecycleEventArgs $args)
     {
         $resource = $args->getEntity();
 
-        if (!$resource instanceof TaggableInterface) {
-            return;
+        if ($resource instanceof TaggableInterface) {
+            $this->manager->syncTagging($resource, true);
         }
-
-        $manager->saveTagging($resource);
     }
 
     /**
-     * @param LifecycleEventArgs $args
+     * Sync tagging for all taggable entities
      */
-    public function postRemove(LifecycleEventArgs $args)
+    public function preFlush(PreFlushEventArgs $args)
+    {
+        $map = $args
+            ->getEntityManager()
+            ->getUnitOfWork()
+            ->getIdentityMap()
+        ;
+
+        $keys = array_filter(
+            array_keys($map),
+            function($class) {
+                return is_subclass_of($class, '\Anh\Taggable\TaggableInterface');
+            }
+        );
+
+        foreach ($keys as $key) {
+            foreach ($map[$key] as $resource) {
+                $this->manager->syncTagging($resource);
+            }
+        }
+    }
+
+    /**
+     * Remove assocated tagging.
+     */
+    public function preRemove(LifecycleEventArgs $args)
     {
         $resource = $args->getEntity();
 
-        if (!$resource instanceof TaggableInterface) {
-            return;
+        if ($resource instanceof TaggableInterface) {
+            $this->manager->deleteTagging($resource);
         }
-
-        $this->manager->deleteTagging($resource);
     }
 }

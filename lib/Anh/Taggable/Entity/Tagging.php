@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(
  *      uniqueConstraints={
- *          @UniqueConstraint(name="tagging_idx", columns={"tagId", "resourceType", "resourceId"})
+ *          @ORM\UniqueConstraint(name="tagging_idx", columns={"tagId", "resourceType", "resourceId"})
  *      }
  * )
  * @ORM\Entity()

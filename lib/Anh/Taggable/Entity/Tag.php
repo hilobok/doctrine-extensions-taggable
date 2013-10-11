@@ -3,8 +3,13 @@
 namespace Anh\Taggable\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
 /**
- * @ORM\Table()
+ * @ORM\Table(
+ *      uniqueConstraints={
+ *          @ORM\UniqueConstraint(name="name_idx", columns={"name"})
+ *      }
+ * )
  * @ORM\Entity()
  */
 class Tag extends MappedSuperclass\AbstractTag

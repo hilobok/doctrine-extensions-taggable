@@ -1,8 +1,6 @@
 <?php
 
-echo __DIR__;
-
-define('VENDOR_PATH', realpath(__DIR__ . '/../vendor'));
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
 if (!class_exists('PHPUnit_Framework_TestCase') ||
     version_compare(PHPUnit_Runner_Version::id(), '3.5') < 0
@@ -15,7 +13,8 @@ if (!class_exists('PHPUnit_Framework_MockObject_MockBuilder')) {
 }
 
 /** @var $loader ClassLoader */
-$loader = require VENDOR_PATH . '/autoload.php';
+$loader = require __DIR__ . '/../../../autoload.php';
+$loader->add('Anh\Taggable\Fixtures', __DIR__);
+$loader->add('Anh\Taggable\Tool', __DIR__);
 
-// AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
-// AnnotationRegistry::registerFile(__DIR__ . '/Mapping/Annotation/All.php');
+AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
