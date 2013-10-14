@@ -17,6 +17,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
     const TAG = 'Anh\Taggable\Entity\Tag';
     const TAGGING = 'Anh\Taggable\Entity\Tagging';
     const ARTICLE = 'Anh\Taggable\Fixtures\Article';
+    const POST = 'Anh\Taggable\Fixtures\Post';
 
     protected $em;
     protected $manager;
@@ -45,6 +46,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
             $this->em->getClassMetadata(self::TAG),
             $this->em->getClassMetadata(self::TAGGING),
             $this->em->getClassMetadata(static::ARTICLE),
+            $this->em->getClassMetadata(static::POST),
         ));
 
         $this->manager = new TaggableManager($this->em, self::TAG, self::TAGGING);
