@@ -7,6 +7,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreFlushEventArgs;
+use Doctrine\ORM\Event\OnClearEventArgs;
 
 class TaggableListener implements EventSubscriber
 {
@@ -31,7 +32,8 @@ class TaggableListener implements EventSubscriber
             Events::postLoad,
             Events::postPersist,
             Events::preFlush,
-            Events::preRemove
+            Events::preRemove,
+            Events::onClear
         );
     }
 
@@ -93,6 +95,19 @@ class TaggableListener implements EventSubscriber
 
         if ($resource instanceof TaggableInterface) {
             $this->manager->deleteTagging($resource);
+        }
+    }
+
+    /**
+     * Clear taggingMap when clearing entity manager
+     */
+    public function onClear(OnClearEventArgs $args)
+    {
+        $class = $args->getEntityClass();
+
+        if (empty($class) or is_subclass_of('Anh\Taggable\TaggableInterface', $class)) {
+            $this->manager->clearTaggingMap();
+            return;
         }
     }
 }

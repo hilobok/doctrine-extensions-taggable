@@ -298,4 +298,32 @@ class TaggableManager
 
         return new ArrayCollection($taggingList);
     }
+
+    /**
+     * Clears all tagging map
+     *
+     * @return void
+     */
+    public function clearTaggingMap()
+    {
+        $this->taggingMap = null;
+    }
+
+    /**
+     * Cascade detach tagging and clear taggingMap for resource.
+     * Should be called before EntityManager#detach().
+     *
+     * @param \Anh\Taggable\TaggableInterface $resource
+     *
+     * @return void
+     */
+    public function detach(TaggableInterface $resource)
+    {
+        foreach($this->getTagging($resource) as $tagging) {
+            $this->em->detach($tagging);
+        }
+
+        $hash = spl_object_hash($resource);
+        unset($this->taggingMap[$hash]);
+    }
 }
