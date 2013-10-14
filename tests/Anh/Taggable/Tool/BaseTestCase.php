@@ -16,7 +16,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 {
     const TAG = 'Anh\Taggable\Entity\Tag';
     const TAGGING = 'Anh\Taggable\Entity\Tagging';
-    const FIXTURE = 'Anh\Taggable\Fixtures\Article';
+    const ARTICLE = 'Anh\Taggable\Fixtures\Article';
 
     protected $em;
     protected $manager;
@@ -44,16 +44,19 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         $schema->createSchema(array(
             $this->em->getClassMetadata(self::TAG),
             $this->em->getClassMetadata(self::TAGGING),
-            $this->em->getClassMetadata(static::FIXTURE),
+            $this->em->getClassMetadata(static::ARTICLE),
         ));
 
         $this->manager = new TaggableManager($this->em, self::TAG, self::TAGGING);
         $this->em->getEventManager()->addEventSubscriber(new TaggableListener($this->manager));
     }
 
-    protected function createArticle()
+    protected function createFixture($class = null)
     {
-        $class = static::FIXTURE;
+        if ($class === null) {
+            $class = static::ARTICLE;
+        }
+
         $article = new $class();
         $article->setTitle('There is a star in the sky');
         $tags = $this->manager->loadOrCreateTags(array('pulsar', 'nebula', 'galaxy'));
@@ -62,13 +65,17 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         return $article;
     }
 
-    protected function loadArticle()
+    protected function loadFixture($class = null)
     {
-        $article = $this->createArticle();
+        $article = $this->createFixture($class);
+
         $this->em->persist($article);
         $this->em->flush();
-        $this->em->detach($article);
+        $this->em->clear();
 
-        return $this->em->find(static::FIXTURE, $article->getId());
+        // $this->manager->detach($article);
+        // $this->em->detach($article);
+
+        return $this->em->find(static::ARTICLE, $article->getId());
     }
 }

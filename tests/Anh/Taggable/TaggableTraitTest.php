@@ -6,6 +6,6 @@ class TaggableTraitTest extends TaggableTraitTestCase
 {
     protected function getArticle()
     {
-        return $this->createArticle();
+        return $this->createFixture();
     }
 }

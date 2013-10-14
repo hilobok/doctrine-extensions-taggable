@@ -6,6 +6,6 @@ class TaggableExtendsLoadedTest extends TaggableTestCase
 {
     protected function getArticle()
     {
-        return $this->loadArticle();
+        return $this->loadFixture();
     }
 }

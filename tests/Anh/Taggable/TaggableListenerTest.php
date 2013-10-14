@@ -6,13 +6,13 @@ class TaggableListenerTest extends BaseTestCase
 {
     public function testPostLoad()
     {
-        $article = $this->loadArticle();
+        $article = $this->loadFixture();
         $this->assertEquals($this->manager, $article->getTaggableManager());
     }
 
     public function testPostPersist()
     {
-        $article = $this->createArticle();
+        $article = $this->createFixture();
         $tags = $this->manager->loadOrCreateTags(array('white dwarf', 'neutron star'));
         $article->addTags($tags);
         $this->em->persist($article);
@@ -31,7 +31,7 @@ class TaggableListenerTest extends BaseTestCase
 
     public function testPreFlush()
     {
-        $article = $this->loadArticle();
+        $article = $this->loadFixture();
         $tags = $this->manager->loadOrCreateTags(array('helium star', 'iron star'));
         $article->addTags($tags);
         $this->em->flush();
@@ -49,7 +49,7 @@ class TaggableListenerTest extends BaseTestCase
 
     public function testPreRemove()
     {
-        $article = $this->loadArticle();
+        $article = $this->loadFixture();
         $id = $article->getTaggableId();
         $type = $article->getTaggableType();
 

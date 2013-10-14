@@ -6,6 +6,6 @@ class TaggableExtendsTest extends TaggableTestCase
 {
     protected function getArticle()
     {
-        return $this->createArticle();
+        return $this->createFixture();
     }
 }

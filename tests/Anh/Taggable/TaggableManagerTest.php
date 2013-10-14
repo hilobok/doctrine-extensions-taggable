@@ -43,7 +43,7 @@ class TaggableManagerTest extends BaseTestCase
 
     public function testLoadTags()
     {
-        $article = $this->loadArticle();
+        $article = $this->loadFixture();
 
         $tags = $this->manager->loadTags($article);
         $this->assertInstanceOf('\Doctrine\Common\Collections\ArrayCollection', $tags);
@@ -55,8 +55,8 @@ class TaggableManagerTest extends BaseTestCase
 
     public function testDeleteTagging()
     {
-        // $article = $this->createArticle();
-        $article = $this->loadArticle();
+        // $article = $this->createFixture();
+        $article = $this->loadFixture();
         $tags = $this->manager->loadOrCreateTags(array('andromeda', 'orion'));
         $article->addTags($tags);
         $this->manager->deleteTagging($article);
@@ -72,7 +72,7 @@ class TaggableManagerTest extends BaseTestCase
 
     public function testSyncTagging()
     {
-        $article = $this->createArticle();
+        $article = $this->createFixture();
         $tags = $this->manager->loadOrCreateTags(array('tag1', 'tag2', 'tag3'));
         $article->addTags($tags);
         $this->em->persist($article);
@@ -81,7 +81,7 @@ class TaggableManagerTest extends BaseTestCase
         $id = $article->getId();
         $this->em->detach($article);
 
-        $article = $this->em->find(static::FIXTURE, $id);
+        $article = $this->em->find(static::ARTICLE, $id);
         $this->assertEquals(6, $article->getTags()->count());
     }
 
@@ -104,7 +104,7 @@ class TaggableManagerTest extends BaseTestCase
     {
         $this->setExpectedException('\Doctrine\DBAL\DBALException');
 
-        $article = $this->createArticle();
+        $article = $this->createFixture();
         $tag = $this->manager->loadOrCreateTag('test');
 
         $tagging1 = $this->manager->createTagging();
