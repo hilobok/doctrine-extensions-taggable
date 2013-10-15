@@ -70,19 +70,54 @@ class TaggableManagerTest extends BaseTestCase
         $this->assertTrue(empty($tagging));
     }
 
-    public function testSyncTagging()
+    public function testSyncTaggingAdd()
     {
         $article = $this->createFixture();
+        $this->em->persist($article);
         $tags = $this->manager->loadOrCreateTags(array('tag1', 'tag2', 'tag3'));
         $article->addTags($tags);
-        $this->em->persist($article);
         $this->em->flush();
+        $this->em->clear();
 
-        $id = $article->getId();
-        $this->em->detach($article);
-
-        $article = $this->em->find(static::ARTICLE, $id);
+        $article = $this->em->find(static::ARTICLE, $article->getId());
         $this->assertEquals(6, $article->getTags()->count());
+    }
+
+    public function testSyncTaggingRemove()
+    {
+        $article = $this->createFixture();
+        $this->em->persist($article);
+        $tag = $this->manager->loadOrCreateTag('galaxy');
+        $article->removeTag($tag);
+        $this->em->flush();
+        $this->em->clear();
+
+        $article = $this->em->find(static::ARTICLE, $article->getId());
+        $this->assertEquals(2, $article->getTags()->count());
+    }
+
+    public function testSyncTaggingAddLoaded()
+    {
+        $article = $this->loadFixture();
+        $tags = $this->manager->loadOrCreateTags(array('tag1', 'tag2', 'tag3'));
+        $article->addTags($tags);
+        $this->em->flush();
+        $this->em->clear();
+
+        $article = $this->em->find(static::ARTICLE, $article->getId());
+        $this->assertEquals(6, $article->getTags()->count());
+    }
+
+    public function testSyncTaggingRemoveLoaded()
+    {
+        $article = $this->loadFixture();
+        $tag = $this->manager->loadOrCreateTag('galaxy');
+        $article->removeTag($tag);
+        $this->em->flush();
+        $this->em->clear();
+
+        $article = $this->em->find(static::ARTICLE, $article->getId());
+        $this->assertEquals(2, $article->getTags()->count());
     }
 
     public function testTagUniqueConstraint()

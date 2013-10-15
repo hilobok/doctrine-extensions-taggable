@@ -197,15 +197,20 @@ class TaggableManager
         $priorTags = array_map(function($tagging) { return $tagging->getTag(); }, $taggingCache->toArray());
         $currentTags = $resource->getTags()->toArray();
 
-        $compareCallback = function($tag1, $tag2) { return strcasecmp($tag1->getName(), $tag2->getName()); };
+        $compareCallback = function($tag1, $tag2) { return $tag1->compareTo($tag2); };
 
         $removedTags = array_udiff($priorTags, $currentTags, $compareCallback);
         if (!empty($removedTags)) {
-            $names = array_map(function($tag) { return $tag->getName(); }, $removedTags);
-            $taggingToRemove = $taggingCache->filter(function($tagging) use ($names) { return in_array($tagging->getTag()->getName(), $names); });
-            foreach ($taggingToRemove as $tagging) {
-                $taggingCache->removeElement($tagging);
-                $this->em->remove($tagging);
+            foreach ($taggingCache as $key => $tagging) {
+                $tag1 = $tagging->getTag();
+
+                foreach ($removedTags as $tag2) {
+                    if ($tag1->isEqualTo($tag2)) {
+                        $this->em->remove($tagging);
+                        $taggingCache->remove($key);
+                        break;
+                    }
+                }
             }
         }
 

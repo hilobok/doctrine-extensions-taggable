@@ -64,6 +64,14 @@ abstract class TaggableTestCase extends BaseTestCase
         $this->assertEquals(2, $article->getTags()->count());
     }
 
+    public function testRemoveTagIssueWithProxy()
+    {
+        $tag = $this->manager->loadOrCreateTag('nebula');
+        $article = $this->getArticle();
+        $article->removeTag($tag);
+        $this->assertEquals(2, $article->getTags()->count());
+    }
+
     public function testClearTags()
     {
         $article = $this->getArticle();

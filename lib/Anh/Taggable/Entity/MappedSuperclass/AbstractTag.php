@@ -60,4 +60,28 @@ abstract class AbstractTag
     {
         return $this->name;
     }
+
+    /**
+     * Compares two tags.
+     *
+     * @param AbstractTag $tag
+     *
+     * @see strcasecmp
+     */
+    public function compareTo(AbstractTag $tag)
+    {
+        return strcasecmp($this->getName(), $tag->getName());
+    }
+
+    /**
+     * Compares if two tags is equal.
+     *
+     * @param AbstractTag $tag
+     *
+     * @return boolean
+     */
+    public function isEqualTo(AbstractTag $tag)
+    {
+        return $this->compareTo($tag) === 0;
+    }
 }
