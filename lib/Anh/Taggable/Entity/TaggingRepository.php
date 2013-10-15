@@ -13,27 +13,40 @@ class TaggingRepository extends EntityRepository
      *
      * @return array
      */
-    public function getResourcesWithTag(Tag $tag)
+    public function getResourcesWithTag(Tag $tag, $group = false)
     {
         $taggingList = $this->createQueryBuilder('tagging')
-            ->select('tagging.resourceId')
+            ->select(
+                'tagging.resourceType',
+                'tagging.resourceId'
+            )
             ->where('tagging.tag = :tag')
             ->setParameter('tag', $tag)
             ->getQuery()
             ->getResult()
         ;
 
-        return $this->hydrateResult($taggingList, 'resourceId');
+        if ($group) {
+            $result = array();
+
+            foreach ($taggingList as $tagging) {
+                $result[$tagging['resourceType']][] = $tagging['resourceId'];
+            }
+
+            $taggingList = $result;
+        }
+
+        return $taggingList;
     }
 
     /**
-     * Returns resource ids with given type tagged with tag.
+     * Returns resource ids with given type and tagged with tag.
      *
      * @param Anh\Taggable\Entity\Tag $tag
      *
      * @return array
      */
-    public function getResourcesByTypeWithTag($type, Tag $tag)
+    public function getResourcesWithTypeAndTag($type, Tag $tag)
     {
         $taggingList = $this->createQueryBuilder('tagging')
             ->select('tagging.resourceId')
@@ -47,15 +60,36 @@ class TaggingRepository extends EntityRepository
             ->getResult()
         ;
 
-        return $this->hydrateResult($taggingList, 'resourceId');
-    }
-
-    protected function hydrateResult($array, $field)
-    {
         $result = array();
 
-        foreach ($array as $value) {
-            $result[] = $value[$field];
+        foreach ($taggingList as $tagging) {
+            $result[] = $tagging['resourceId'];
+        }
+
+        return $result;
+    }
+
+    /**
+     *
+     */
+    public function getTagsAndResourcesCount()
+    {
+        $taggingList = $this->createQueryBuilder('tagging')
+            ->select(
+                'tagging AS taggingEntity',
+                // 'IDENTITY(tagging.tag) AS tag'
+                'count(tagging.tag) AS resourcesCount'
+            )
+            ->groupBy('tagging.tag')
+            ->getQuery()
+            ->getResult()
+        ;
+
+        foreach ($taggingList as $tagging) {
+            $result[] = array(
+                'tag' => $tagging['taggingEntity']->getTag(),
+                'count' => $tagging['resourcesCount']
+            );
         }
 
         return $result;
