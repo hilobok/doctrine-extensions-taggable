@@ -16,4 +16,10 @@ abstract class TaggableTraitTestCase extends TaggableTestCase
 
         parent::setUp();
     }
+
+    public function testFixtureActuallyWithTrait()
+    {
+        $article = $this->getArticle();
+        $this->assertInstanceOf('\Anh\Taggable\Fixtures\ArticleWithTrait', $article);
+    }
 }
