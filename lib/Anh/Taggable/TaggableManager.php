@@ -109,9 +109,13 @@ class TaggableManager
      */
     public function loadOrCreateTag($name)
     {
+        if (empty($name)) {
+            throw new \InvalidArgumentException('Name cannot be empty.');
+        }
+
         $tags = $this->loadOrCreateTags((array) $name);
 
-        return reset($tags);
+        return $tags->first();
     }
 
     /**
@@ -119,10 +123,14 @@ class TaggableManager
      *
      * @param array $names
      *
-     * @return array Array of tag entities
+     * @return ArrayCollection Array of tag entities
      */
     public function loadOrCreateTags(array $names)
     {
+        if (empty($names)) {
+            return new ArrayCollection();
+        }
+
         $names = array_unique(array_map('trim', $names));
 
         $persistentTags = $this->em->createQueryBuilder()
@@ -155,7 +163,7 @@ class TaggableManager
         }
 
         // re-index for tests
-        return array_values($tags);
+        return new ArrayCollection(array_values($tags));
     }
 
     /**

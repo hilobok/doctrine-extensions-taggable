@@ -105,11 +105,11 @@ trait TaggableTrait
     /**
      * Add tags
      *
-     * @param array $tags
+     * @param array|ArrayCollection $tags
      *
      * @return \Anh\Taggable\TaggableInterface
      */
-    public function addTags(array $tags)
+    public function addTags($tags)
     {
         foreach ($tags as $tag) {
             $this->addTag($tag);
@@ -142,11 +142,11 @@ trait TaggableTrait
     /**
      * Remove tags
      *
-     * @param array $tag
+     * @param array|ArrayCollection $tags
      *
      * @return \Anh\Taggable\TaggableInterface
      */
-    public function removeTags(array $tags)
+    public function removeTags($tags)
     {
         foreach ($tags as $tag) {
             $this->removeTag($tag);
@@ -170,11 +170,11 @@ trait TaggableTrait
     /**
      * Replace tags
      *
-     * @param array $tags
+     * @param array|ArrayCollection $tags
      *
      * @return \Anh\Taggable\TaggableInterface
      */
-    public function replaceTags(array $tags)
+    public function replaceTags($tags)
     {
         $this->clearTags()->addTags($tags);
 

@@ -32,13 +32,26 @@ class TaggableManagerTest extends BaseTestCase
         $this->assertEquals($tag1->getId(), $tag2->getId());
     }
 
+    public function testLoadOrCreateTagWithEmptyNameShouldThrowException()
+    {
+        $this->setExpectedException('\InvalidArgumentException');
+        $tag = $this->manager->loadOrCreateTag('');
+    }
+
     public function testLoadOrCreateTags()
     {
         $tag = $this->manager->loadOrCreateTag('test');
         $tags = $this->manager->loadOrCreateTags(array('test', 'another'));
-        $this->assertTrue(is_array($tags));
+        $this->assertInstanceOf('\Doctrine\Common\Collections\ArrayCollection', $tags);
         $this->assertEquals($tag, $tags[0]);
         $this->assertEquals($tags[1]->getName(), 'another');
+    }
+
+    public function testLoadOrCreateTagsWithEmptyNamesShouldReturnEmptyCollection()
+    {
+        $tags = $this->manager->loadOrCreateTags(array());
+        $this->assertInstanceOf('\Doctrine\Common\Collections\ArrayCollection', $tags);
+        $this->assertTrue($tags->isEmpty());
     }
 
     public function testLoadTags()
