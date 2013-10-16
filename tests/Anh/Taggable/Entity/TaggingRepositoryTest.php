@@ -34,7 +34,7 @@ class TaggingRepositoryTest extends BaseTestCase
         $this->assertTrue(isset($resources[$articleType]));
         $this->assertEquals(4, count($resources[$articleType]));
         $this->assertTrue(isset($resources[$postType]));
-        $this->assertEquals(4, count($resources[$postType]));
+        $this->assertEquals(3, count($resources[$postType]));
     }
 
     public function testGetResourcesWithTypeAndTag()
