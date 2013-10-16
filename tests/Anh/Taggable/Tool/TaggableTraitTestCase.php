@@ -4,7 +4,7 @@ namespace Anh\Taggable\Tool;
 
 abstract class TaggableTraitTestCase extends TaggableTestCase
 {
-    const FIXTURE = 'Anh\Taggable\Fixtures\ArticleWithTrait';
+    const ARTICLE = 'Anh\Taggable\Fixtures\ArticleWithTrait';
 
     public function setUp()
     {
