@@ -3,7 +3,7 @@
 namespace Anh\Taggable\Tool;
 
 use Anh\Taggable\TaggableManager;
-use Anh\Taggable\TaggableListener;
+use Anh\Taggable\TaggableSubscriber;
 
 use Doctrine\ORM\Configuration;
 use Doctrine\Common\Cache\ArrayCache;
@@ -50,7 +50,7 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
         ));
 
         $this->manager = new TaggableManager($this->em, self::TAG, self::TAGGING);
-        $this->em->getEventManager()->addEventSubscriber(new TaggableListener($this->manager));
+        $this->em->getEventManager()->addEventSubscriber(new TaggableSubscriber($this->manager));
     }
 
     protected function createFixture($class = null)

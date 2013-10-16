@@ -9,7 +9,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Event\OnClearEventArgs;
 
-class TaggableListener implements EventSubscriber
+class TaggableSubscriber implements EventSubscriber
 {
     protected $manager;
 
