@@ -101,6 +101,22 @@ class TaggableManager
     }
 
     /**
+     * Returns Tag repository
+     */
+    public function getTagRepository()
+    {
+        return $this->em->getRepository($this->getTagClass());
+    }
+
+    /**
+     * Returns Tagging repository
+     */
+    public function getTaggingRepository()
+    {
+        return $this->em->getRepository($this->getTaggingClass());
+    }
+
+    /**
      * Loads tag by name or creates if not exists.
      *
      * @param string $name

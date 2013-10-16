@@ -24,6 +24,22 @@ class TaggableManagerTest extends BaseTestCase
         $this->assertInstanceOf(self::TAGGING, $this->manager->createTagging());
     }
 
+    public function testGetTagRepository()
+    {
+        $this->assertInstanceOf(
+            '\Anh\Taggable\Entity\TagRepository',
+            $this->manager->getTagRepository()
+        );
+    }
+
+    public function testGetTaggingRepository()
+    {
+        $this->assertInstanceOf(
+            '\Anh\Taggable\Entity\TaggingRepository',
+            $this->manager->getTaggingRepository()
+        );
+    }
+
     public function testLoadOrCreateTag()
     {
         $tag1 = $this->manager->loadOrCreateTag('test');

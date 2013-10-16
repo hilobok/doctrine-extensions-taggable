@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *          @ORM\UniqueConstraint(name="name_idx", columns={"name"})
  *      }
  * )
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Anh\Taggable\Entity\TagRepository")
  */
 class Tag extends MappedSuperclass\AbstractTag
 {
