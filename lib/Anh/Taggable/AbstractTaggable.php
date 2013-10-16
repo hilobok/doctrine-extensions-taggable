@@ -44,6 +44,16 @@ abstract class AbstractTaggable implements TaggableInterface
     }
 
     /**
+     * Set tags
+     *
+     * @param \Doctrine\Common\Collections\ArrayCollection $tags
+     */
+    public function setTags(ArrayCollection $tags)
+    {
+        $this->tags = $tags;
+    }
+
+    /**
      * Get tag names
      *
      * @return array

@@ -6,12 +6,17 @@ abstract class TaggableTestCase extends BaseTestCase
 {
     abstract protected function getArticle();
 
-    public function testGetTags()
+    public function testGetSetTags()
     {
         $article = $this->getArticle();
+
         $tags = $article->getTags();
         $this->assertInstanceOf('\Doctrine\Common\Collections\ArrayCollection', $tags);
         $this->assertEquals(3, $tags->count());
+
+        $tags->clear();
+        $article->setTags($tags);
+        $this->assertEquals($tags, $article->getTags());
     }
 
     public function testGetTagNames()

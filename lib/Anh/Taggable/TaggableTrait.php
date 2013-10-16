@@ -45,6 +45,16 @@ trait TaggableTrait
     }
 
     /**
+     * Set tags
+     *
+     * @param \Doctrine\Common\Collections\ArrayCollection $tags
+     */
+    public function setTags(ArrayCollection $tags)
+    {
+        $this->tags = $tags;
+    }
+
+    /**
      * Get tag names
      *
      * @return array
@@ -117,7 +127,14 @@ trait TaggableTrait
      */
     public function removeTag(Tag $tag)
     {
-        $this->getTags()->removeElement($tag);
+        $tags = $this->getTags();
+
+        foreach ($tags as $key => $value) {
+            if ($value->isEqualTo($tag)) {
+                $tags->remove($key);
+                break;
+            }
+        }
 
         return $this;
     }
