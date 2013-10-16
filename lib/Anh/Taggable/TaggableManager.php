@@ -332,7 +332,7 @@ class TaggableManager
      */
     public function detach(TaggableInterface $resource)
     {
-        foreach($this->getTagging($resource) as $tagging) {
+        foreach ($this->getTagging($resource) as $tagging) {
             $this->em->detach($tagging);
         }
 

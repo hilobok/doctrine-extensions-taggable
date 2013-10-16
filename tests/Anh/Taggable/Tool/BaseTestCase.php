@@ -81,7 +81,6 @@ abstract class BaseTestCase extends \PHPUnit_Framework_TestCase
 
         // $this->manager->detach($article);
         // $this->em->detach($article);
-
         return $this->em->find($class, $article->getId());
     }
 }
