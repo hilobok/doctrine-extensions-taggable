@@ -355,4 +355,29 @@ class TaggableManager
         $hash = spl_object_hash($resource);
         unset($this->taggingMap[$hash]);
     }
+
+    /**
+     * Deletes tags by array of id.
+     * Using em->getReference() in order to not fetch whole entity from db
+     * see {@link http://stackoverflow.com/questions/11486662/doctrine-entity-remove-vs-delete-query-performance-comparison}
+     *
+     * @return TaggableManager
+     */
+    public function deleteTagsByIdList(array $list)
+    {
+        if (empty($list)) {
+            return $this;
+        }
+
+        foreach ($list as $id) {
+            $entity = $this->em->getReference($this->tagClass, $id);
+            if (!empty($entity)) {
+                $this->em->remove($entity);
+            }
+        }
+
+        $this->em->flush();
+
+        return $this;
+    }
 }
