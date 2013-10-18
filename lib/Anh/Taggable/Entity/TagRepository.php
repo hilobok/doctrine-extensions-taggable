@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityRepository;
 class TagRepository extends EntityRepository
 {
     /**
-     * Search tags by given query.
+     * Searches tags with term.
      *
      * @param string  $query Search query
      * @param boolean $exact Search exact query if true
@@ -16,26 +16,12 @@ class TagRepository extends EntityRepository
      *
      * @return array
      */
-    public function search($query, $exact = false, $field = null, $limit = null)
+    public function search($term, $exact = false, $field = null, $limit = null)
     {
-        if (!$exact and strpos($query, '%') === false) {
-            $query = sprintf('%%%s%%', $query);
-        }
-
-        $query = $this->createQueryBuilder('tag')
-            ->where('tag.name like :query')
-            ->setParameter('query', $query)
+        $result = $this->searchQB($term, $exact, $field, $limit)
+            ->getQuery()
+            ->getResult()
         ;
-
-        if ($field) {
-            $query->select(sprintf('tag.%s', $field));
-        }
-
-        if ($limit) {
-            $query->setMaxResults($limit);
-        }
-
-        $result = $query->getQuery()->getResult();
 
         if ($field) {
             $rows = $result;
@@ -47,5 +33,43 @@ class TagRepository extends EntityRepository
         }
 
         return $result;
+    }
+
+    /**
+     * Returns QueryBuilder for searching tags with term.
+     * @see search()
+     */
+    public function searchQB($term, $exact = false, $field = null, $limit = null)
+    {
+        if (!$exact and strpos($term, '%') === false) {
+            $term = sprintf('%%%s%%', $term);
+        }
+
+        $query = $this->findAllQB()
+            ->where('tag.name like :term')
+            ->setParameter('term', $term)
+        ;
+
+        if ($field) {
+            $query->select(sprintf('tag.%s', $field));
+        }
+
+        if ($limit) {
+            $query->setMaxResults($limit);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Returns QueryBuilder for all tags.
+     *
+     * @param string $alias
+     *
+     * @return QueryBuilder
+     */
+    public function findAllQB($alias = 'tag')
+    {
+        return $this->createQueryBuilder($alias);
     }
 }
