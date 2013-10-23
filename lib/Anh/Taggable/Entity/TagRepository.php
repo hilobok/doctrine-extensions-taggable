@@ -70,6 +70,8 @@ class TagRepository extends EntityRepository
      */
     public function findAllQB($alias = 'tag')
     {
-        return $this->createQueryBuilder($alias);
+        return $this->createQueryBuilder($alias)
+            ->orderBy($alias . '.name', 'ASC')
+        ;
     }
 }
