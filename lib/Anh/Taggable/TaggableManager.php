@@ -161,7 +161,7 @@ class TaggableManager
         $nonPersistentTags = array_filter(
             $this->em->getUnitOfWork()->getScheduledEntityInsertions(),
             function($tag) use ($names) {
-                return ($tag instanceof Tag) and in_array($tag->getName(), $names);
+                return ($tag instanceof Tag) && in_array($tag->getName(), $names);
             }
         );
 

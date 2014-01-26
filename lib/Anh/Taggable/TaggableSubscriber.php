@@ -105,7 +105,7 @@ class TaggableSubscriber implements EventSubscriber
     {
         $class = $args->getEntityClass();
 
-        if (empty($class) or is_subclass_of('Anh\Taggable\TaggableInterface', $class)) {
+        if (empty($class) || is_subclass_of('Anh\Taggable\TaggableInterface', $class)) {
             $this->manager->clearTaggingMap();
 
             return;

@@ -41,7 +41,7 @@ class TagRepository extends EntityRepository
      */
     public function searchQB($term, $exact = false, $field = null, $limit = null)
     {
-        if (!$exact and strpos($term, '%') === false) {
+        if (!$exact && strpos($term, '%') === false) {
             $term = sprintf('%%%s%%', $term);
         }
 
