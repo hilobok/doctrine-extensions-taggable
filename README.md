@@ -35,7 +35,7 @@ doctrine:
                 dir: "%kernel.root_dir%/../vendor/anh/doctrine-extensions-taggable/lib/Anh/Taggable/Entity"
 ```
 
-edit **Acme/DemoBundle/Resources/config/services.yml** to add a service
+edit **Acme/DemoBundle/Resources/config/services.yml** to add a service and subscriver
 ```yaml
 #...
 services:
@@ -46,8 +46,15 @@ services:
             - @doctrine.orm.entity_manager
             - Anh\Taggable\Entity\Tag
             - Anh\Taggable\Entity\Tagging
+# ...
+    anh_taggable.subscriber:
+        class: %anh_taggable.subscriber.class%
+        arguments:
+            - @service_container
+        tags:
+            - { name: doctrine.event_subscriber }
 ```
-
+see https://github.com/hilobok/AnhTaggableBundle/blob/master/TaggableSubscriber.php for an example of subscriver
 
 ## Example
 Create taggable entity
