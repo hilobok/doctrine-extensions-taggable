@@ -48,7 +48,7 @@ services:
             - Anh\Taggable\Entity\Tagging
 # ...
     anh_taggable.subscriber:
-        class: %anh_taggable.subscriber.class%
+        class: Anh\TaggableBundle\TaggableSubscriber
         arguments:
             - @service_container
         tags:
