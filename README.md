@@ -1,23 +1,20 @@
 # Doctrine2 taggable behavior extension
 
-[![Build Status](https://travis-ci.org/hilobok/doctrine-extensions-taggable.png?branch=master)](https://travis-ci.org/hilobok/doctrine-extensions-taggable)
+[![Build Status](https://travis-ci.org/hilobok/doctrine-extensions-taggable.png?branch=master)](https://travis-ci.org/hilobok/doctrine-extensions-taggable) [![SensioLabsInsight](https://insight.sensiolabs.com/projects/8cdcc0f0-1f7b-4cb1-91ea-7b3bd3f899cc/mini.png)](https://insight.sensiolabs.com/projects/8cdcc0f0-1f7b-4cb1-91ea-7b3bd3f899cc)
 
 ## Installation
 ```json
-{
     "require": {
-        //...
-        "anh/doctrine-extensions-taggable":      "~1.0"
-    },
-
-    "autoload": {
-        "psr-0": {
-            "Acme": "src/"
-        }
+        "anh/doctrine-extensions-taggable": "~1.0"
     }
-}
 ```
+
 ### Symfony
+
+There is bundle for that — [AnhTaggableBundle](https://github.com/hilobok/AnhTaggableBundle)
+
+#### Basic integration
+
 edit **app/config/config.yml**:
 
 ```yaml
@@ -26,7 +23,7 @@ doctrine:
 # ...
 
     orm:
-# ... 
+# ...
         mappings:
             taggable:
                 type: annotation
@@ -35,18 +32,19 @@ doctrine:
                 dir: "%kernel.root_dir%/../vendor/anh/doctrine-extensions-taggable/lib/Anh/Taggable/Entity"
 ```
 
-edit **Acme/DemoBundle/Resources/config/services.yml** to add a service and subscriver
+edit **Acme/DemoBundle/Resources/config/services.yml** to add a service and event subscriber
+
 ```yaml
-#...
+# ...
 services:
-#...
+# ...
     anh_taggable.manager:
         class: Anh\Taggable\TaggableManager
         arguments:
             - @doctrine.orm.entity_manager
             - Anh\Taggable\Entity\Tag
             - Anh\Taggable\Entity\Tagging
-# ...
+
     anh_taggable.subscriber:
         class: Anh\TaggableBundle\TaggableSubscriber
         arguments:
@@ -54,10 +52,10 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 ```
-see https://github.com/hilobok/AnhTaggableBundle/blob/master/TaggableSubscriber.php for an example of subscriver
 
 ## Example
-Create taggable entity
+
+### Create taggable entity
 
 ```php
 <?php
@@ -76,7 +74,7 @@ class Article extends AbstractTaggable implements TaggableInterface
 }
 ```
 
-Using taggable extension
+### Using taggable extension
 
 ```php
 <?php
@@ -110,6 +108,9 @@ $tags = $taggableManager->loadOrCreateTags(array('tag1', 'tag2', 'tag3'));
 $article->addTags($tags);
 
 // see Anh\Taggable\AbstractTaggable for more
+
+$em->persist($article);
+$em->flush();
 
 // ...
 
