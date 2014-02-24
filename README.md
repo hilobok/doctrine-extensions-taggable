@@ -7,7 +7,7 @@
 {
     "require": {
         //...
-        "anh/doctrine-extensions-taggable":      "dev-master"
+        "anh/doctrine-extensions-taggable":      "~1.0"
     },
 
     "autoload": {
