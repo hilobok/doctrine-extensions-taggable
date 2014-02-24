@@ -2,6 +2,61 @@
 
 [![Build Status](https://travis-ci.org/hilobok/doctrine-extensions-taggable.png?branch=master)](https://travis-ci.org/hilobok/doctrine-extensions-taggable)
 
+## Installation
+```json
+{
+    "require": {
+        //...
+        "anh/doctrine-extensions-taggable":      "~1.0"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "Acme": "src/"
+        }
+    }
+}
+```
+### Symfony
+edit **app/config/config.yml**:
+
+```yaml
+doctrine:
+    dbal:
+# ...
+
+    orm:
+# ... 
+        mappings:
+            taggable:
+                type: annotation
+                alias: AnhTaggable
+                prefix: Anh\Taggable\Entity
+                dir: "%kernel.root_dir%/../vendor/anh/doctrine-extensions-taggable/lib/Anh/Taggable/Entity"
+```
+
+edit **Acme/DemoBundle/Resources/config/services.yml** to add a service and subscriver
+```yaml
+#...
+services:
+#...
+    anh_taggable.manager:
+        class: Anh\Taggable\TaggableManager
+        arguments:
+            - @doctrine.orm.entity_manager
+            - Anh\Taggable\Entity\Tag
+            - Anh\Taggable\Entity\Tagging
+# ...
+    anh_taggable.subscriber:
+        class: Anh\TaggableBundle\TaggableSubscriber
+        arguments:
+            - @service_container
+        tags:
+            - { name: doctrine.event_subscriber }
+```
+see https://github.com/hilobok/AnhTaggableBundle/blob/master/TaggableSubscriber.php for an example of subscriver
+
+## Example
 Create taggable entity
 
 ```php
