@@ -210,7 +210,7 @@ class TaggableManager
      *
      * @return void
      */
-    public function syncTagging(TaggableInterface $resource, $flush = false)
+    public function syncTagging(TaggableInterface $resource, $doFlush = false)
     {
         if ($resource->getTaggableId() == null) {
             return;
@@ -223,6 +223,8 @@ class TaggableManager
 
         $compareCallback = function($tag1, $tag2) { return $tag1->compareTo($tag2); };
 
+        $needFlush = false;
+
         $removedTags = array_udiff($priorTags, $currentTags, $compareCallback);
         if (!empty($removedTags)) {
             foreach ($taggingCache as $key => $tagging) {
@@ -232,6 +234,7 @@ class TaggableManager
                     if ($tag1->isEqualTo($tag2)) {
                         $this->em->remove($tagging);
                         $taggingCache->remove($key);
+                        $needFlush = true;
                         break;
                     }
                 }
@@ -245,9 +248,10 @@ class TaggableManager
             $tagging->setTag($tag);
             $this->em->persist($tagging);
             $taggingCache->add($tagging);
+            $needFlush = true;
         }
 
-        if ($flush) {
+        if ($needFlush && $doFlush) {
             $this->em->flush();
         }
     }
