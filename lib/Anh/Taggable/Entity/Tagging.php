@@ -17,7 +17,7 @@ class Tagging extends MappedSuperclass\AbstractTagging
     /**
      * @var $tag
      *
-     * @ORM\ManyToOne(targetEntity="Tag", inversedBy="tagging")
+     * @ORM\ManyToOne(targetEntity="Tag", inversedBy="tagging", fetch="EAGER")
      * @ORM\JoinColumn(name="tagId", referencedColumnName="id")
      */
     protected $tag;
