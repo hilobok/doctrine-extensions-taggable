@@ -2,9 +2,9 @@
 
 namespace Anh\Taggable\Entity;
 
-use Doctrine\ORM\EntityRepository;
+use Anh\DoctrineResource\ORM\ResourceRepository;
 
-class TagRepository extends EntityRepository
+class TagRepository extends ResourceRepository
 {
     /**
      * Searches tags with term.

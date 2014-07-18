@@ -2,9 +2,9 @@
 
 namespace Anh\Taggable\Entity;
 
-use Doctrine\ORM\EntityRepository;
+use Anh\DoctrineResource\ORM\ResourceRepository;
 
-class TaggingRepository extends EntityRepository
+class TaggingRepository extends ResourceRepository
 {
     /**
      * Returns resource ids tagged with tag.
