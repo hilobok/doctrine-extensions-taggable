@@ -4,7 +4,6 @@ namespace Anh\Taggable;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Collections\ArrayCollection;
-use Anh\Taggable\Entity\Tag;
 use Anh\Taggable\Entity\MappedSuperclass\AbstractTag;
 use Anh\Taggable\Entity\MappedSuperclass\AbstractTagging;
 
