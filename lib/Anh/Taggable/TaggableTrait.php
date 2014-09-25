@@ -3,6 +3,7 @@
 namespace Anh\Taggable;
 
 use Anh\Taggable\Entity\Tag;
+use Anh\Taggable\Entity\MappedSuperclass\AbstractTag;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -62,7 +63,7 @@ trait TaggableTrait
     public function getTagNames()
     {
         return array_map(
-            function($tag) { return $tag->getName(); },
+            function(AbstractTag $tag) { return $tag->getName(); },
             $this->getTags()->toArray()
         );
     }

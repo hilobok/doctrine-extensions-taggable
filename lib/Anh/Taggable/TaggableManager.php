@@ -5,6 +5,8 @@ namespace Anh\Taggable;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Anh\Taggable\Entity\Tag;
+use Anh\Taggable\Entity\MappedSuperclass\AbstractTag;
+use Anh\Taggable\Entity\MappedSuperclass\AbstractTagging;
 
 /**
  * The TaggableManager is responsible for managing tags for resources.
@@ -161,13 +163,13 @@ class TaggableManager
         $nonPersistentTags = array_filter(
             $this->em->getUnitOfWork()->getScheduledEntityInsertions(),
             function($tag) use ($names) {
-                return ($tag instanceof Tag) && in_array($tag->getName(), $names);
+                return ($tag instanceof AbstractTag) && in_array($tag->getName(), $names);
             }
         );
 
         $tags = array_merge($persistentTags, $nonPersistentTags);
 
-        $existingNames = array_map(function($tag) { return $tag->getName(); }, $tags);
+        $existingNames = array_map(function(AbstractTag $tag) { return $tag->getName(); }, $tags);
 
         $missingNames = array_udiff($names, $existingNames, 'strcasecmp');
 
@@ -195,7 +197,7 @@ class TaggableManager
         $this->setTagging($resource, $taggingList);
 
         $tags = array_map(
-            function($tagging) { return $tagging->getTag(); },
+            function(AbstractTagging $tagging) { return $tagging->getTag(); },
             $taggingList->toArray()
         );
 
@@ -218,10 +220,10 @@ class TaggableManager
 
         $taggingCache = $this->getTagging($resource);
 
-        $priorTags = array_map(function($tagging) { return $tagging->getTag(); }, $taggingCache->toArray());
+        $priorTags = array_map(function(AbstractTagging $tagging) { return $tagging->getTag(); }, $taggingCache->toArray());
         $currentTags = $resource->getTags()->toArray();
 
-        $compareCallback = function($tag1, $tag2) { return $tag1->compareTo($tag2); };
+        $compareCallback = function(AbstractTag $tag1, AbstractTag $tag2) { return $tag1->compareTo($tag2); };
 
         $needFlush = false;
 
