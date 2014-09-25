@@ -188,7 +188,7 @@ class TaggableManagerTest extends BaseTestCase
     {
         $this->loadFixture();
         $tags = $this->manager->loadOrCreateTags(array('galaxy', 'nebula'));
-        $idList = array_map(function($tag) { return $tag->getId(); }, $tags->toArray());
+        $idList = array_map(function ($tag) { return $tag->getId(); }, $tags->toArray());
         $this->manager->deleteTagsByIdList($idList);
         $tags = $this->manager->getTagRepository()->findAll();
         $this->assertEquals(1, count($tags));

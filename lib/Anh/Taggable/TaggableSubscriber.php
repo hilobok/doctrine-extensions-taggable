@@ -2,7 +2,6 @@
 
 namespace Anh\Taggable;
 
-use Anh\Taggable\TaggableManager;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -74,7 +73,7 @@ class TaggableSubscriber implements EventSubscriber
 
         $keys = array_filter(
             array_keys($map),
-            function($class) {
+            function ($class) {
                 return is_subclass_of($class, '\Anh\Taggable\TaggableInterface');
             }
         );

@@ -63,7 +63,7 @@ trait TaggableTrait
     public function getTagNames()
     {
         return array_map(
-            function(AbstractTag $tag) { return $tag->getName(); },
+            function (AbstractTag $tag) { return $tag->getName(); },
             $this->getTags()->toArray()
         );
     }
