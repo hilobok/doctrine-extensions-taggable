@@ -213,7 +213,7 @@ class TaggableManager
      */
     public function syncTagging(TaggableInterface $resource, $doFlush = false)
     {
-        if ($resource->getTaggableId() == null) {
+        if ($resource->getTaggableId() === null) {
             return;
         }
 
