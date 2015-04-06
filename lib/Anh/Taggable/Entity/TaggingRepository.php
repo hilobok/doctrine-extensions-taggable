@@ -72,21 +72,28 @@ class TaggingRepository extends ResourceRepository
     /**
      *
      */
-    public function getTagsAndResourcesCount(array $resourceTypes = null)
+    public function getTagsAndResourcesCount($resourceType = null, $threshold = null)
     {
         $queryBuilder = $this->createQueryBuilder('tagging')
             ->select(
                 'tagging AS taggingEntity',
-                // 'IDENTITY(tagging.tag) AS tag'
                 'count(tagging.tag) AS resourcesCount'
             )
+            ->orderBy('resourcesCount', 'DESC')
             ->groupBy('tagging.tag')
         ;
 
-        if (!empty($resourceTypes)) {
+        if (!empty($threshold)) {
             $queryBuilder
-                ->where('tagging.resourceType = :resourceTypes')
-                ->setParameter('resourceTypes', $resourceTypes)
+                ->having('resourcesCount > :threshold')
+                ->setParameter('threshold', $threshold)
+            ;
+        }
+
+        if (!empty($resourceType)) {
+            $queryBuilder
+                ->where('tagging.resourceType = :resourceType')
+                ->setParameter('resourceType', $resourceType)
             ;
         }
 
