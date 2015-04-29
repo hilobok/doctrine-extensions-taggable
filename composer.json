@@ -19,8 +19,12 @@
     "require": {
         "php": ">=5.4",
         "anh/doctrine-extensions-resource": "0.4.*",
-        "doctrine/common": ">=2.3,<2.5-dev",
-        "doctrine/orm": ">=2.3,<2.5-dev"
+        "doctrine/common": "~2.3",
+        "doctrine/orm": "~2.3"
+    },
+
+    "require-dev": {
+        "phpunit/phpunit": "~4.6"
     },
 
     "minimum-stability": "stable",
@@ -29,6 +33,10 @@
         "psr-0": {
             "Anh\\Taggable": "lib"
         }
+    },
+
+    "config": {
+        "bin-dir": "bin"
     },
 
     "extra": {
