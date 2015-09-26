@@ -19,8 +19,8 @@
     "require": {
         "php": ">=5.4",
         "anh/doctrine-extensions-resource": "0.4.*",
-        "doctrine/common": "~2.3",
-        "doctrine/orm": "~2.3"
+        "doctrine/common": ">=2.5.1|>=2.4.3",
+        "doctrine/orm": ">=2.5.1|>=2.4.8"
     },
 
     "require-dev": {
