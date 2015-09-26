@@ -120,6 +120,6 @@ $repository = $taggableManager->getTaggingRepository();
 $tag = $taggableManager->loadOrCreateTag('Some tag')
 // returns all resources tagged with tag 'Some tag'
 $resources = $repository->getResourcesWithTag($tag);
-// returns only artilces with tag 'Some tag'
+// returns only articles with tag 'Some tag'
 $articles = $repository->getResourcesWithTypeAndTag('article', $tag);
 ```
