@@ -90,7 +90,7 @@ $taggableManager = new TaggableManager(
     $em, 'Anh\Taggable\Entity\Tag', 'Anh\Taggable\Entity\Tagging'
 );
 
-// add event subscriber
+// add event subscriber (only if you didn't before in services.yml)
 $em->getEventManager()->addEventSubscriber(
     new TaggableSubscriber($taggableManager)
 );
